@@ -2,6 +2,7 @@
     "cSpell.words": [
         "cnsl",
         "dotenv",
+        "jmespath",
         "typer"
     ]
 }

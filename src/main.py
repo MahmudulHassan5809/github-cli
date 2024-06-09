@@ -1,5 +1,6 @@
 import os
 
+import jmespath
 import typer
 from constants import OutputFormat
 from dotenv import load_dotenv
@@ -22,10 +23,14 @@ def list_repos(
     output: OutputFormat = typer.Option(
         OutputFormat.JSON, "--output", "-o", help="output format"
     ),
+    query: str = typer.Option(None, "--query", "-q", help="Query with jmespath")
 ) -> None:
     repos = GitHubAPI(username=user).get_user_repositories()
-    printer = DataPrinter(data=repos)
-    printer.print_beauty(output=output)
+    if query:
+        repos = jmespath.search(query, repos)
+    if repos:
+        printer = DataPrinter(data=repos)
+        printer.print_beauty(output=output)
 
 
 if __name__ == "__main__":
