@@ -29,7 +29,7 @@ This is a command-line tool to interact with GitHub using the GitHub API. It all
 2. Install the required packages:
 
     ```sh
-    pip install -r requirements.txt
+    poetry install
     ```
 
 3. (Optional) Create a `.env` file in the project root to store your GitHub token:
