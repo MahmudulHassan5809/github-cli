@@ -1,7 +1,3 @@
-Creating a proper README file is essential for any project as it helps users understand what the project does, how to set it up, and how to use it. Below is a sample README file for your project:
-
----
-
 # GitHub CLI Tool
 
 This is a command-line tool to interact with GitHub using the GitHub API. It allows you to list and delete repositories, fetch user profiles, and more.
