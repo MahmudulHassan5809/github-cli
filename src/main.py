@@ -4,7 +4,7 @@ import typer
 from constants import OutputFormat
 from dotenv import load_dotenv
 from github import GitHubAPI
-from utils import print_beauty
+from printer import DataPrinter
 
 if os.path.isfile(".env"):
     load_dotenv()
@@ -24,7 +24,8 @@ def list_repos(
     ),
 ) -> None:
     repos = GitHubAPI(username=user).get_user_repositories()
-    print_beauty(data=repos, output=output)
+    printer = DataPrinter(data=repos)
+    printer.print_beauty(output=output)
 
 
 if __name__ == "__main__":
