@@ -10,7 +10,7 @@ class GitHubAPI:
         self.username = username
         self.base_url = "https://api.github.com"
 
-    def get_user_repositories(self) -> list[dict[str, str]] | None:
+    def get_user_repositories(self) -> list[dict[str, str]]:
         all_repos = []
         page = 1
         per_page = 100
