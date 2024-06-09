@@ -17,11 +17,13 @@ def print_beauty(data: list[dict[Any, Any]], output: OutputFormat) -> None:
     elif output == OutputFormat.TABLE:
         tbl = table.Table()
         headers = data[0].keys()
+        tbl.add_column("")
         for h in headers:
             tbl.add_column(str(h), justify="right", style="cyan", no_wrap=True)
 
         for repo in data:
-            tbl.add_row(*[str(r) for r in repo.values()])
+
+            tbl.add_row(*[str(data.index(repo) + 1)] + [str(r) for r in repo.values()])
 
         cnsl = console.Console()
         cnsl.print(tbl)
