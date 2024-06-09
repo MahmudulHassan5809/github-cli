@@ -4,7 +4,10 @@ import typer
 from dotenv import load_dotenv
 from github import GitHubAPI
 
-# from rich import print
+
+
+from constants import OutputFormat
+from utils import print_beauty
 
 if os.path.isfile(".env"):
     load_dotenv()
@@ -18,10 +21,11 @@ app.add_typer(repo_app, name="repo")
 
 @repo_app.command("list", help="list user repositories")
 def list_repos(
-    user: str = typer.Option(..., "--user", "-u", help="github username")
+    user: str = typer.Option(..., "--user", "-u", help="github username"),
+    output: OutputFormat = typer.Option(OutputFormat.JSON, "--output", "-o", help="output format")
 ) -> None:
-    GitHubAPI(username=user).get_user_repositories()
-    # print(repo)
+    repos = GitHubAPI(username=user).get_user_repositories()
+    print_beauty(data=repos, output=output)
 
 
 if __name__ == "__main__":
