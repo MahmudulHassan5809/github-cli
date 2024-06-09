@@ -9,13 +9,24 @@ class GitHubAPI:
     def __init__(self, username: str):
         self.username = username
         self.base_url = "https://api.github.com"
+        self.headers: dict | None = None
+        if os.environ.get("GITHUB_TOKEN"):
+            self.headers = {"Authorization": f"Bearer {os.environ.get('GITHUB_TOKEN')}"}
+        else:
+            self.headers = None
+
+    def delete_user_repository(self, repo_name: str) -> bool:
+        url = f"{self.base_url}/repos/{self.username}/{repo_name}"
+        response = requests.delete(
+            url=url,
+            headers=self.headers,
+        )
+        return response.status_code == 204
 
     def get_user_repositories(self) -> list[dict[str, str]]:
         all_repos = []
         page = 1
         per_page = 100
-
-        headers = os.environ.get("GITHUB_TOKEN")
 
         while True:
             url = f"{self.base_url}/users/{self.username}/repos"
@@ -24,7 +35,7 @@ class GitHubAPI:
                 response = requests.get(
                     url,
                     params=params,
-                    headers={"Authorization": headers},
+                    headers=self.headers,
                 )
                 response.raise_for_status()
                 repos = response.json()

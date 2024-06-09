@@ -4,5 +4,8 @@
         "dotenv",
         "jmespath",
         "typer"
-    ]
+    ],
+    "files.exclude": {
+        "**/__pycache__/": true
+    }
 }
