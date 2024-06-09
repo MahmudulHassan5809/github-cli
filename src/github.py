@@ -36,9 +36,9 @@ class GitHubAPI:
                     all_repos.append(
                         {
                             "id": repo["id"],
-                            "name": repo["name"],
+                            "name": repo["name"][:5],
                             "url": repo["html_url"],
-                            "description": repo["description"],
+                            "description": str(repo["description"])[:5],
                             "language": repo["language"],
                             "stars": repo["stargazers_count"],
                             "forks": repo["forks_count"],
