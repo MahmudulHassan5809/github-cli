@@ -23,6 +23,29 @@ class GitHubAPI:
         )
         return response.status_code == 204
 
+    def get_github_user_followers_count(self) -> int:
+        url = f"https://api.github.com/users/{self.username}/followers"
+        try:
+            response = requests.get(
+                url,
+                headers=self.headers,
+            )
+            response.raise_for_status()
+            json_response = response.json()
+            return len(json_response) if json_response else 0
+        except RequestException as e:
+            raise RequestError(f"Request error: {str(e)}")
+
+    def get_github_user_following_count(self) -> int:
+        url = f"https://api.github.com/users/{self.username}/following"
+        try:
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            json_response = response.json()
+            return len(json_response) if json_response else 0
+        except RequestException as e:
+            raise RequestError(f"Request error: {str(e)}")
+
     def get_user_repositories(self) -> list[dict[str, str]]:
         all_repos = []
         page = 1
