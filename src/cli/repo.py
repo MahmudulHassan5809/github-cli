@@ -1,3 +1,5 @@
+import logging
+
 import jmespath
 import typer
 
@@ -5,6 +7,14 @@ from src.constants import OutputFormat
 from src.github import GitHubAPI
 from src.printer import DataPrinter
 from src.utils import sort_by_key
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("app.log"), logging.StreamHandler()],
+)
+
+logger = logging.getLogger(__name__)
 
 repo_app = typer.Typer()
 
@@ -37,3 +47,14 @@ def list_repos(
     if repos:
         printer = DataPrinter(data=repos)
         printer.print_beauty(output=output)
+
+
+@repo_app.command(name="delete", help="delete user repository")
+def delete_repo(
+    user: str = typer.Option(..., "--user", "-u", help="github user name"),
+    repo: str = typer.Option(..., "--repo", "-r", help="repo name"),
+) -> None:
+    if GitHubAPI(username=user).delete_user_repository(repo_name=repo):
+        logger.info(f"{repo} deleted successfully.")
+    else:
+        logger.info(f"failed to delete repository {repo}.")
